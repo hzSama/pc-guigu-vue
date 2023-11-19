@@ -27,9 +27,12 @@ router.beforeEach(async (to, from, next) => {
   // 进度条开始
   nprogress.configure({ showSpinner: false }).start()
   // 路由鉴权：
-  // 问题：因为在user小仓库中使用了持久化存储插件。导致刷新后仓库数据不重置，但路由数据却重置了。导致刷新后找不到需要动态添加的异步路由。
+  // 问题：因为在user小仓库中把所有数据都进行了持久化存储。
+  //      导致刷新后仓库中所有数据不重置(包括用户信息)，但路由数据却重置了。
+  //      用户信息不重置不会重新请求userInfo，也就导致刷新后无法动态添加路由。
   // 解决：配置持久化存储，使其只持久化存储userToken即可。
   const userStore = useUserStore()
+  console.log(router.getRoutes())
   if (userStore.userToken) {
     if (to.path === '/login') {
       next(from.path)

@@ -44,6 +44,8 @@ export const useUserStore = defineStore('User', () => {
       btns.value = res.data.buttons
       // 使用路由过滤函数
       const userAsyncRoute = filterAsyncRoute(cloneDeep(asyncRoute), res.data.routes)
+      console.log(userAsyncRoute)
+
       menuRoutes.value = [...constantRoute, ...userAsyncRoute, ...anyRoute]
       // 向路由追加筛选后的异步路由及任意路由
       userAsyncRoute.forEach((route: any) => {
@@ -71,6 +73,7 @@ export const useUserStore = defineStore('User', () => {
   // 返回数据
   return { userLogin, userToken, getUserInfo, userInfo, userLogout, menuRoutes, btns }
 }, {
+  // persist: true
   persist: [
     {
       paths: ['userToken'],
